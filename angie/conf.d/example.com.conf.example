@@ -1,4 +1,15 @@
 server {
+    listen 80;
+    server_name example.com;
+
+    # ACME challenge is handled automatically by built-in @acme location
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
     # HTTP/2 and HTTP/3 (QUIC) support
     listen 443 ssl;
     listen 443 quic reuseport;
@@ -61,15 +72,4 @@ server {
         etag on;
     }
 
-}
-
-server {
-    listen 80;
-    server_name example.com;
-
-    # ACME challenge is handled automatically by built-in @acme location
-
-    location / {
-        return 301 https://$host$request_uri;
-    }
 }

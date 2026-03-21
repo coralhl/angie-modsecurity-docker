@@ -45,7 +45,7 @@ source = '''
 [sinks.enriched_logs]
 type = "file"
 inputs = ["parse_json"]
-path = "/var/log/angie/access_enriched.log"
+path = "/var/log/angie/enriched.access.log"
 encoding.codec = "json"
 
 [sinks.enriched_logs.buffer]

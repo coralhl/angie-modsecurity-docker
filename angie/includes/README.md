@@ -9,9 +9,20 @@ includes/
 ├── auth/           # Аутентификация и авторизация
 │   ├── keycloak-auth.conf
 │   └── keycloak-protected-paths.conf
+├── logs/          # Логирование
+│   ├── log-formats.conf
+│   └── enrichment.conf
+├── monitoring/     # Реал-тайм метрики
+│   └── vts.conf
+├── proxy/          # Прокси для виртуальных хостов
+│   └── proxy.conf
+├── performance/    # Сжатие
+│   └── compression.conf
 ├── security/       # Настройки безопасности
-│   ├── security-headers.conf
+│   ├── acme-simple.conf
+│   ├── headers-advanced.conf
 │   ├── rate-limiting.conf
+│   ├── security-headers.conf
 │   └── ssl-params.conf
 └── logs/          # Логирование
     ├── log-formats.conf
@@ -89,6 +100,22 @@ server {
     include /etc/angie/includes/auth/keycloak-auth.conf;
     include /etc/angie/includes/auth/keycloak-protected-paths.conf;
 
+    # ... остальная конфигурация
+}
+```
+
+Настройки проксирования: 
+```nginx
+    # ...
+    location / {
+        include /etc/angie/includes/proxy/proxy.conf;
+
+        set $upstream_app my-app;
+        set $upstream_port 8080;
+        set $upstream_proto http;
+
+        proxy_pass $upstream_proto://$upstream_app:$upstream_port;
+    }
     # ... остальная конфигурация
 }
 ```
